@@ -19,7 +19,7 @@ def process_command(text):
     if 'hello' in text.lower():
         return "Hello, how can I help you?"
     elif 'what is your name' in text.lower():
-        return "I am your voice assistant big daddy Sav."
+        return "I am your voice assistant."
     elif 'ok goodbye' in text.lower():
         return 'thank you goodbye'
     else:
