@@ -6,7 +6,7 @@ import os
 import openai
 
 recognizer = sr.Recognizer()
-openai.api_key = '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'
+openai.api_key = '######################################'
 
 # Issue a prompt to the GPT to create Agent
 
