@@ -6,10 +6,25 @@ import os
 import openai
 
 recognizer = sr.Recognizer()
-openai.api_key = 'PUT YOUR API KEY HERE'
+openai.api_key = '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'
+
+# Issue a prompt to the GPT to create Agent
+
+# Define a default role for the agent if not specified
+default_role = "You are a general-purpose assistant"
+current_role = default_role
 
 
-# generate audio from text (google text-to-speach API)
+# Allow the user to set the role
+def set_agent_role():
+    global current_role
+    print("Please describe the role for your GPT agent: ")
+    role_description = input()
+    current_role = role_description # if role_description else default_role
+    speak("I will be glad to help you with that.")
+
+
+# Generate audio from text (google text-to-speach API)
 def speak(text):
     tts = gTTS(text=text, lang='en')
     tts.save("response.mp3")
@@ -17,34 +32,32 @@ def speak(text):
     os.remove("response.mp3")
 
 
-# simple command processing test, will later integrate with OpenAi API
-# def process_command(text):
-#     # Process the command here and return a response
-#     # For example, a simple greeting
-#     if 'hello' in text.lower():
-#         return "Hello, how can I help you?"
-#     elif 'what is your name' in text.lower():
-#         return "I am your voice assistant."
-#     elif 'ok goodbye' in text.lower():
-#         return 'thank you goodbye'
-#     else:
-#         return "Sorry, I didn't understand that."
-
 def process_command(text):
+    # Prepend the role of agent to text
+    full_prompt = "{}\n\n{}".format(current_role, text)
+
     # Send the text to OpenAI's API
     try:
         response = openai.Completion.create(
             engine="gpt-3.5-turbo-instruct",  # Choose the appropriate model
-            prompt=text,
+            prompt=full_prompt,
             max_tokens=50
         )
         return response.choices[0].text.strip()
     except Exception as e:
         return f"An error occurred: {e}"
 
+run_once = True
+def run_once_agent_role():
+    global run_once
+    if not run_once:
+        return
+    run_once = False
+    set_agent_role()
 
 # Running the voice assistant
 while True:
+    run_once_agent_role()
     with sr.Microphone() as source:
         print("Listening...")
         audio = recognizer.listen(source)
