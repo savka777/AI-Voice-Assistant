@@ -1,6 +1,6 @@
 # AI_Voice_Assistant
 
-At the given state, This voice-activated assistant application that integrates with OpenAI's GPT-3.5 model for natural language processing and response generation. Here's a detailed description of its features and functionalities:
+This voice-activated assistant application integrates with OpenAI's GPT-3.5 model for natural language processing and response generation. Its features and functionalities are as follows:
 
 **Speech Recognition Integration:**
 
