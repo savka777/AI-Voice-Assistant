@@ -6,7 +6,11 @@ import os
 import openai
 
 recognizer = sr.Recognizer()
-openai.api_key = '######################################'
+# Using an environment variable to access API Key
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+if not openai.api_key:
+    raise ValueError("The OPENAI_API_KEY environment variable is not set.")
 
 # Issue a prompt to the GPT to create Agent
 
@@ -14,13 +18,12 @@ openai.api_key = '######################################'
 default_role = "You are a general-purpose assistant"
 current_role = default_role
 
-
 # Allow the user to set the role
 def set_agent_role():
     global current_role
     print("Please describe the role for your GPT agent: ")
     role_description = input()
-    current_role = role_description # if role_description else default_role
+    current_role = role_description  # if role_description else default_role
     speak("I will be glad to help you with that.")
 
 
@@ -47,13 +50,17 @@ def process_command(text):
     except Exception as e:
         return f"An error occurred: {e}"
 
+
 run_once = True
+
+
 def run_once_agent_role():
     global run_once
     if not run_once:
         return
     run_once = False
     set_agent_role()
+
 
 # Running the voice assistant
 while True:
