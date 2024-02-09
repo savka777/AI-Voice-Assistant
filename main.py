@@ -4,16 +4,20 @@ from gtts import gTTS
 import playsound
 import os
 import openai
+import elevenlabs
 
 recognizer = sr.Recognizer()
 # Using an environment variable to access API Key
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
+ELEVENLABS_API_KEY = os.getenv('ELEVENLABS_API_KEY')
+elevenlabs.set_api_key(ELEVENLABS_API_KEY)
+
 if not openai.api_key:
     raise ValueError("The OPENAI_API_KEY environment variable is not set.")
 
-# Issue a prompt to the GPT to create Agent
 
+# Issue a prompt to the GPT to create Agent
 # Define a default role for the agent if not specified
 default_role = "You are a general-purpose assistant"
 current_role = default_role
@@ -27,12 +31,24 @@ def set_agent_role():
     speak("I will be glad to help you with that.")
 
 
-# Generate audio from text (google text-to-speach API)
+# Generate audio from Elevenlabs
+# Generate audio from Elevenlabs
 def speak(text):
-    tts = gTTS(text=text, lang='en')
-    tts.save("response.mp3")
-    playsound.playsound("response.mp3")
+    audio = elevenlabs.generate(
+        text=text,
+        voice="Natasha - Valley girl"
+    )
+    elevenlabs.save(audio, "response.mp3")
+    elevenlabs.play(audio)
     os.remove("response.mp3")
+
+
+# Generate audio from text (google text-to-speach API)
+# def speak(text):
+#     tts = gTTS(text=text, lang='en')
+#     tts.save("response.mp3")
+#     playsound.playsound("response.mp3")
+#     os.remove("response.mp3")
 
 
 def process_command(text):
@@ -44,7 +60,7 @@ def process_command(text):
         response = openai.Completion.create(
             engine="gpt-3.5-turbo-instruct",  # Choose the appropriate model
             prompt=full_prompt,
-            max_tokens=50
+            max_tokens=100
         )
         return response.choices[0].text.strip()
     except Exception as e:
