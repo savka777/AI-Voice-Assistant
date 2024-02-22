@@ -8,7 +8,7 @@ Utilizes the speech_recognition library to convert spoken words into text. This 
 
 **Text-to-Speech Functionality:**
 
-Converts text responses into speech using Google's Text-to-Speech (gTTS) API, allowing the assistant to communicate audibly with the user.
+Converts text responses into speech using Eleven Labs, allowing the assistant to communicate audibly with the user.
 Temporary audio files are created for each response and then deleted after being played, ensuring efficient memory usage and data privacy.
 
 **Integration with OpenAI's GPT-3.5:**
