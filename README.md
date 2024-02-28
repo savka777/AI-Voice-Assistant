@@ -20,5 +20,3 @@ Processes user input by sending it to the GPT model, which generates a natural l
 
 Defines a default role for the GPT agent as a general-purpose assistant.
 Includes functionality (set_agent_role) allowing the user to customize the role of the GPT agent. This role information is used to tailor the responses of the GPT model.
-
-**The goal** is to be able to bridge other LLM's to be able to communicate via voice chat. (primarly those LLM's that are less known and dont have the same voice chat / GUI interface capabilities as OpenAI's ChatGPT)
